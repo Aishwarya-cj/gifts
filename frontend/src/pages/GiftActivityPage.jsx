@@ -33,9 +33,11 @@ export default function GiftActivityPage({ giftSequence, onComplete, onBackToHom
 
   return (
     <div
-      className="relative min-h-[100dvh] w-full flex flex-col items-center justify-between p-4 sm:p-6 sm:py-8 overflow-hidden bg-center bg-cover bg-no-repeat"
+      className="relative min-h-[100dvh] w-full flex flex-col items-center justify-between p-3 xs:p-4 sm:p-6 sm:py-8 overflow-x-hidden overflow-y-auto bg-center bg-cover bg-no-repeat"
       style={{
         backgroundImage: `url('/download.jpg')`,
+        paddingTop: 'max(0.75rem, env(safe-area-inset-top, 0.75rem))',
+        paddingBottom: 'max(1rem, env(safe-area-inset-bottom, 1rem))',
       }}
     >
       {/* Top Left: Back to Menu Arrow */}
@@ -43,7 +45,7 @@ export default function GiftActivityPage({ giftSequence, onComplete, onBackToHom
         <button
           onClick={onBackToHome}
           aria-label="Back to Menu"
-          className="fixed top-4 left-4 z-40 flex items-center gap-1.5 px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-full bg-white/85 hover:bg-white text-rose-950 backdrop-blur-md border border-white shadow-md transition-all duration-200 hover:scale-105 active:scale-95 focus:outline-none cursor-pointer"
+          className="fixed top-3 left-3 sm:top-4 sm:left-4 z-40 flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2.5 rounded-full bg-white/85 hover:bg-white text-rose-950 backdrop-blur-md border border-white shadow-md transition-all duration-200 hover:scale-105 active:scale-95 focus:outline-none cursor-pointer min-h-[38px] sm:min-h-[42px]"
           title="Back to Menu"
         >
           <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 text-red-700" />
@@ -57,12 +59,12 @@ export default function GiftActivityPage({ giftSequence, onComplete, onBackToHom
       <HeartConfetti triggerKey={confettiKey} duration={3500} />
 
       {/* Top Header: Progress Indicator */}
-      <div className="w-full pt-2 sm:pt-4 flex justify-center z-10">
+      <div className="w-full pt-1 xs:pt-2 sm:pt-4 flex justify-center z-10 px-14 sm:px-0">
         <ProgressIndicator currentStep={currentStep} totalSteps={totalGifts} />
       </div>
 
       {/* Center: Main Gift Reveal Card & Number */}
-      <div className="relative z-10 w-full max-w-sm sm:max-w-md mx-auto my-auto flex flex-col items-center justify-center text-center">
+      <div className="relative z-10 w-full max-w-sm sm:max-w-md mx-auto my-auto py-3 sm:py-4 flex flex-col items-center justify-center text-center">
         <AnimatePresence mode="wait">
           <motion.div
             key={`gift-${currentGiftNumber}`}
@@ -76,22 +78,22 @@ export default function GiftActivityPage({ giftSequence, onComplete, onBackToHom
             className="w-full flex flex-col items-center justify-center"
           >
             {/* Introductory Text Pill */}
-            <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-white shadow-sm mb-5">
-              <span className="font-serif italic text-sm sm:text-base text-rose-950 font-medium tracking-wide">
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-1 xs:px-4 xs:py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-white shadow-sm mb-3 xs:mb-5">
+              <span className="font-serif italic text-xs xs:text-sm sm:text-base text-rose-950 font-medium tracking-wide">
                 The gift you're opening is...
               </span>
             </div>
 
             {/* Exactly Centered Frosted Number Circle */}
-            <div className="w-48 h-48 sm:w-56 sm:h-56 md:w-60 md:h-60 rounded-full bg-white/95 backdrop-blur-xl border-2 border-white shadow-2xl grid place-items-center aspect-square">
+            <div className="w-40 h-40 xs:w-48 xs:h-48 sm:w-56 sm:h-56 md:w-60 md:h-60 rounded-full bg-white/95 backdrop-blur-xl border-2 border-white shadow-2xl grid place-items-center aspect-square flex-shrink-0">
               {/* Large Gift Number - Distinctive Luxury Number Font & Vibrant Crimson Ruby Red */}
-              <span className="font-number text-[92px] sm:text-[124px] md:text-[148px] font-bold text-red-700 leading-none select-none text-center">
+              <span className={`font-number ${currentGiftNumber >= 10 ? 'text-[72px] xs:text-[90px] sm:text-[116px] md:text-[140px]' : 'text-[84px] xs:text-[104px] sm:text-[132px] md:text-[148px]'} font-bold text-red-700 leading-none select-none text-center`}>
                 {currentGiftNumber}
               </span>
             </div>
 
             {/* Note */}
-            <p className="mt-4 text-xs sm:text-sm font-medium text-white/90 tracking-wide title-glow">
+            <p className="mt-3 xs:mt-4 text-[11px] xs:text-xs sm:text-sm font-medium text-white/90 tracking-wide title-glow">
               Unwrap your gift with love
             </p>
           </motion.div>
@@ -99,13 +101,13 @@ export default function GiftActivityPage({ giftSequence, onComplete, onBackToHom
       </div>
 
       {/* Bottom Footer: Next Gift Button */}
-      <div className="w-full pb-4 sm:pb-6 flex items-center justify-center z-20 px-4">
+      <div className="w-full pb-3 xs:pb-4 sm:pb-6 flex items-center justify-center z-20 px-3 xs:px-4">
         {/* Open Next Gift Button */}
         <GlassButton
           variant="primary"
           size="lg"
           onClick={handleNextGift}
-          className="w-full max-w-xs sm:max-w-sm py-3.5 !bg-white/95 hover:!bg-white !text-rose-950 text-base sm:text-lg font-bold shadow-lg border border-white"
+          className="w-full max-w-[280px] xs:max-w-xs sm:max-w-sm py-3 xs:py-3.5 !bg-white/95 hover:!bg-white !text-rose-950 text-base sm:text-lg font-bold shadow-lg border border-white min-h-[44px]"
         >
           {isLastGift ? 'See Final Message' : 'Open Next Gift'}
         </GlassButton>

@@ -35,15 +35,24 @@ export default function HeartConfetti({ triggerKey, duration = 3500 }) {
     if (!ctx) return;
 
     // Handle high DPI screens for crisp rendering
-    const dpr = window.devicePixelRatio || 1;
-    const width = window.innerWidth;
-    const height = window.innerHeight;
+    let dpr = window.devicePixelRatio || 1;
+    let width = window.innerWidth;
+    let height = window.innerHeight;
 
-    canvas.width = width * dpr;
-    canvas.height = height * dpr;
-    canvas.style.width = `${width}px`;
-    canvas.style.height = `${height}px`;
-    ctx.scale(dpr, dpr);
+    const updateCanvasDimensions = () => {
+      dpr = window.devicePixelRatio || 1;
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.scale(dpr, dpr);
+    };
+
+    updateCanvasDimensions();
+    window.addEventListener('resize', updateCanvasDimensions);
 
     // Dainty white hearts
     const WHITE_COLOR = '#ffffff';
@@ -125,6 +134,7 @@ export default function HeartConfetti({ triggerKey, duration = 3500 }) {
     animationId = requestAnimationFrame(render);
 
     return () => {
+      window.removeEventListener('resize', updateCanvasDimensions);
       if (animationId) cancelAnimationFrame(animationId);
       if (ctx) ctx.clearRect(0, 0, width, height);
     };
